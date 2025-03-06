@@ -2,7 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const routes = require('./src/routes');
-const { connectDb, createProductTable } = require('./database/database'); 
+const { connectDb } = require('./database/database'); 
+const { createProductTable, insertInitialProductData, deleteAllProducts } = require('./src/models/productModel');
+const { createCartTable } = require('./src/models/cartModel');
 
 const app = express();
 
@@ -21,7 +23,10 @@ app.use((req, res, next) => {
 
 app.use('/api', routes);
 
-createTable();
+createProductTable();
+createCartTable();
+deleteAllProducts();
+insertInitialProductData(); 
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
