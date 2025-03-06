@@ -13,7 +13,7 @@ const db = new sqlite3.Database(
 );
 
 
-const createTable = () => {
+const createProductTable = () => {
   const sql = `
         CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -41,6 +41,29 @@ const createTable = () => {
     }
   });
 };
+
+const createCartTable = () => {
+    const sql = `
+      CREATE TABLE IF NOT EXISTS cart (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        product_id INTEGER,
+        colorCode INTEGER,
+        storageCode INTEGER,
+        quantity INTEGER DEFAULT 1,
+        created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (product_id) REFERENCES products(id)
+      )
+    `;
+    
+    db.run(sql, (err) => {
+      if (err) {
+        console.error("Error creating cart table:", err.message);
+      } else {
+        console.log('Table "cart" ensured.');
+      }
+    });
+  };
+  
 
 const deleteAllProducts = () => {
     const sql = `DELETE FROM products`;
@@ -103,6 +126,23 @@ const insertInitialData = () => {
   });
 };
 
+
+const addToCart = (productId, colorCode, storageCode) => {
+    const sql = `
+      INSERT INTO cart (product_id, colorCode, storageCode)
+      VALUES (?, ?, ?)
+    `;
+    
+    db.run(sql, [productId, colorCode, storageCode], function(err) {
+      if (err) {
+        console.error("Error adding product to cart:", err.message);
+      } else {
+        console.log(`Product ${productId} added to cart with colorCode ${colorCode} and storageCode ${storageCode}`);
+      }
+    });
+  };
+  
+
 const connectDb = () => {
   return new Promise((resolve, reject) => {
     db.serialize(() => {
@@ -112,4 +152,4 @@ const connectDb = () => {
   });
 };
 
-module.exports = { db, connectDb, createTable };
+module.exports = { db, connectDb, createProductTable, createCartTable };

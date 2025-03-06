@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const routes = require('./src/routes');
-const { connectDb, createTable } = require('./database/database'); 
+const { connectDb, createProductTable } = require('./database/database'); 
 
 const app = express();
 

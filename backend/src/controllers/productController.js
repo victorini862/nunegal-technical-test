@@ -13,4 +13,21 @@ const getProducts = (req, res) => {
     });
 };
 
-module.exports = { getProducts };
+const getProductById = (req, res) => {
+    const { id } = req.params; 
+    const sql = 'SELECT * FROM products WHERE id = ?';
+
+    db.get(sql, [id], (err, row) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        if (row) {
+            res.json(row); 
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    });
+};
+
+module.exports = { getProducts, getProductById };
