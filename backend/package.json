@@ -4,20 +4,20 @@
     "description": "A technical test for a mobile device store SPA with Vue.js, Node.js, and SQLite",
     "main": "index.js",
     "scripts": {
-      "start": "node backend/server.js",
-      "dev": "concurrently \"npm run start-backend\" \"npm run start-frontend\"",
-      "start-backend": "node backend/server.js",
-      "start-frontend": "npm run serve --prefix frontend",
-      "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "node backend/server.js",
+        "dev": "concurrently \"npm run start-backend\" \"npm run start-frontend\"",
+        "start-backend": "node backend/server.js",
+        "start-frontend": "npm run serve --prefix frontend",
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-      "express": "^4.17.1",
-      "sqlite3": "^5.1.2"
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "sqlite3": "^5.1.7"
     },
     "devDependencies": {
-      "concurrently": "^7.1.0"
+        "concurrently": "^7.1.0"
     },
     "author": "Víctor González Martín",
     "license": "MIT"
-  }
-  
+}
