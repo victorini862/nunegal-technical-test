@@ -1,9 +1,12 @@
 <template>
   <div>
     <TheHeader />
-    <SearchBar @search="handleSearch" />
+    <div class="search-container">
+        <h1>Product List</h1>
+      <SearchBar class="search-component" @search="handleSearch" />
+    </div>
     <div v-if="isLoading">Loading products...</div>
-    <div class="grid" v-else>
+    <div class="product-list" v-else>
       <ProductItem v-for="product in filteredProducts" :key="product.id" :product="product" />
     </div>
   </div>
@@ -45,9 +48,40 @@ export default {
 </script>
 
 <style scoped>
-.grid {
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.search-component {
+    width: 300px;
+}
+
+.product-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 50px;
+  padding: 20px;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+@media (max-width: 1024px) {
+  .product-list {
+    grid-template-columns: repeat(3, 1fr); 
+  }
+}
+
+@media (max-width: 768px) {
+  .product-list {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+}
+
+@media (max-width: 480px) {
+  .product-list {
+    grid-template-columns: repeat(1, 1fr); 
+  }
 }
 </style>
