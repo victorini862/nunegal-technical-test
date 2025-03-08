@@ -39,6 +39,14 @@ const deleteAllProducts = () => {
       console.error("Error deleting products:", err.message);
     } else {
       console.log("All products deleted.");
+      db.run(`DELETE FROM sqlite_sequence WHERE name='products'`, (err) => {
+        if (err) {
+          console.error("Error resetting autoincrement:", err.message);
+        } else {
+          console.log("Autoincrement ID reset.");
+        }
+        insertInitialProductData();
+      });
       insertInitialProductData();
     }
   });

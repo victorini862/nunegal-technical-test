@@ -1,6 +1,5 @@
 <template>
   <div>
-    <TheHeader />
     <div class="search-container">
       <h1>Product List</h1>
       <SearchBar v-model="searchQuery" class="search-component" />
@@ -14,13 +13,12 @@
 
 <script>
 import { ref, computed, onMounted } from 'vue';
-import TheHeader from '../components/TheHeader.vue';
 import SearchBar from '../components/SearchBar.vue';
 import ProductItem from '../components/ProductItem.vue';
 import { useProductStore } from '../store/products';
 
 export default {
-  components: { TheHeader, SearchBar, ProductItem },
+  components: { SearchBar, ProductItem },
   setup() {
     const store = useProductStore();
     const searchQuery = ref('');

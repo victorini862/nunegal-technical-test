@@ -8,8 +8,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .product-image {
-    width: 200px;
+  width: 400px;
+  height: 400px;
+  object-fit: contain;
+  border-radius: 10px;
 }
 </style>

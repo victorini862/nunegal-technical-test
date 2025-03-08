@@ -1,15 +1,21 @@
 <template>
-  <v-app>
+  <div>
+    <TheHeader :cartCount="cartCount" />
     <router-view />
-  </v-app>
+  </div>
 </template>
 
 <script>
+import { useProductStore } from './store/products';
+import TheHeader from './components/TheHeader.vue';
 
 export default {
-  name: 'App'
-}
+  components: { TheHeader },
+  computed: {
+    cartCount() {
+      const productStore = useProductStore();
+      return productStore.cart.length;
+    }
+  },
+};
 </script>
-
-<style>
-</style>
