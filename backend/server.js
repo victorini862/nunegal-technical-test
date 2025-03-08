@@ -25,8 +25,6 @@ app.use('/api', routes);
 
 createProductTable();
 createCartTable();
-deleteAllProducts();
-insertInitialProductData(); 
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
