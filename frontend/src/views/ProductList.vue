@@ -2,8 +2,8 @@
   <div>
     <TheHeader />
     <div class="search-container">
-        <h1>Product List</h1>
-      <SearchBar class="search-component" @search="handleSearch" />
+      <h1>Product List</h1>
+      <SearchBar v-model="searchQuery" class="search-component" />
     </div>
     <div v-if="isLoading">Loading products...</div>
     <div class="product-list" v-else>
@@ -24,25 +24,23 @@ export default {
   setup() {
     const store = useProductStore();
     const searchQuery = ref('');
-    const isLoading = ref(true); 
+    const isLoading = ref(true);
 
     onMounted(async () => {
-      await store.fetchProducts(); 
+      await store.fetchProducts();
       isLoading.value = false;
     });
 
-    const handleSearch = (query) => {
-      searchQuery.value = query;
-    };
-
     const filteredProducts = computed(() => {
-      return store.products.filter((p) =>
-        p.brand.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-        p.model.toLowerCase().includes(searchQuery.value.toLowerCase())
+      const query = searchQuery.value.toLowerCase().trim(); 
+
+      return store.products.filter((p) => 
+        p.brand.toLowerCase().includes(query) || 
+        p.model.toLowerCase().includes(query)
       );
     });
 
-    return { filteredProducts, handleSearch, isLoading };
+    return { searchQuery, filteredProducts, isLoading };
   },
 };
 </script>
@@ -60,7 +58,7 @@ export default {
 
 .product-list {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); 
+  grid-template-columns: repeat(5, 1fr);
   gap: 50px;
   padding: 20px;
   margin-left: 5%;
@@ -69,19 +67,19 @@ export default {
 
 @media (max-width: 1024px) {
   .product-list {
-    grid-template-columns: repeat(3, 1fr); 
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 768px) {
   .product-list {
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 480px) {
   .product-list {
-    grid-template-columns: repeat(1, 1fr); 
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 </style>

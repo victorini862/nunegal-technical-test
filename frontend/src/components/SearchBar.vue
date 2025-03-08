@@ -2,8 +2,8 @@
   <input
     type="text"
     :value="modelValue"
-    @input="$emit('update:modelValue', $event)"
-    placeholder="Buscar por marca o modelo..."
+    @input="$emit('update:modelValue', $event.target.value)" 
+    placeholder="Search by make or model..."
   />
 </template>
 
@@ -14,10 +14,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 input {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 </style>
