@@ -1,6 +1,8 @@
 <template>
   <div>
-    <router-link to="/" class="back-link">Back to Products</router-link>
+    <router-link to="/" class="back-link">
+    <i class="fa fa-arrow-left"></i> Back to Products
+  </router-link>
 
     <div class="container">
 
@@ -59,7 +61,7 @@ export default {
 }
 
 .back-link {
-  margin-bottom: 20px;
+  margin: 5px;
   text-decoration: none;
   color: blue;
 }
