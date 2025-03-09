@@ -1,22 +1,28 @@
 import { defineStore } from 'pinia';
-import axios from 'axios'; 
+import axios from 'axios';
 
 export const useProductStore = defineStore('productStore', {
   state: () => ({
-    cart: [],
-    cartCount: 0,
+    cart: JSON.parse(localStorage.getItem('cart')) || [], 
     products: [],
-    selectedProduct: null, 
+    selectedProduct: null,
   }),
-  
+
+  getters: {
+    cartCount: (state) => state.cart.length, 
+  },
 
   actions: {
+    saveCartToLocalStorage() {
+      localStorage.setItem('cart', JSON.stringify(this.cart)); 
+    },
+
     async addToCart(productData) {
       try {
         const response = await axios.post('http://localhost:5000/api/cart', productData);
         if (response.data.success) {
-          this.cart = response.data.cart || []; 
-          this.cartCount = this.cart.length;
+          this.cart.push(productData);  
+          this.saveCartToLocalStorage(); 
           return { success: true, cartCount: this.cart.length };
         } else {
           return { success: false, message: 'No se pudo añadir el producto al carrito.' };
@@ -25,7 +31,8 @@ export const useProductStore = defineStore('productStore', {
         console.error('Error adding product to cart:', error);
         return { success: false, message: 'Hubo un error al agregar el producto al carrito.' };
       }
-    },        
+    },
+
     async fetchProducts() {
       try {
         const response = await axios.get('http://localhost:5000/api/products'); 
@@ -34,6 +41,7 @@ export const useProductStore = defineStore('productStore', {
         console.error('Error fetching products:', error);
       }
     },
+
     async fetchProductById(id) {
       try {
         const response = await axios.get(`http://localhost:5000/api/product/${id}`);
