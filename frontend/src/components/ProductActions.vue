@@ -38,10 +38,8 @@ import { useRoute } from 'vue-router';
 
 const productStore = useProductStore();
 const route = useRoute();
-
 const selectedStorage = ref(null);
 const selectedColor = ref(null);
-
 const product = ref(null);
 const storageOptions = ref([]);
 const colorOptions = ref([]);
@@ -50,7 +48,6 @@ onMounted(async () => {
   const fetchedProduct = await productStore.fetchProductById(route.params.id);
   if (fetchedProduct) {
     product.value = fetchedProduct;
-
     if (!product.value.storageOptions) {
       storageOptions.value = [
         { code: '128GB', name: '128 GB' },
@@ -60,7 +57,6 @@ onMounted(async () => {
     } else {
       storageOptions.value = product.value.storageOptions;
     }
-
     if (!product.value.colorOptions) {
       colorOptions.value = [
         { code: 'black', name: 'Negro' },
@@ -70,7 +66,6 @@ onMounted(async () => {
     } else {
       colorOptions.value = product.value.colorOptions;
     }
-
     if (storageOptions.value.length > 0) {
       selectedStorage.value = storageOptions.value[0].code;
     }
@@ -79,19 +74,17 @@ onMounted(async () => {
     }
   }
 });
-
 const addToCart = async () => {
   if (!selectedStorage.value || !selectedColor.value) {
-    alert('Please select both storage and colour.');
+    alert('Please select both storage and color.');
     return;
   }
   const productData = {
-    id: product.value.id,
+    product_id: product.value.id,
     storageCode: selectedStorage.value,
     colorCode: selectedColor.value
   };
   const response = await productStore.addToCart(productData);
-
   if (response.success) {
     alert(`Product added to your cart. Total in cart: ${response.cartCount}`);
   } else {

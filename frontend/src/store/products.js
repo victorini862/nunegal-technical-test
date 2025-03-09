@@ -4,16 +4,19 @@ import axios from 'axios';
 export const useProductStore = defineStore('productStore', {
   state: () => ({
     cart: [],
+    cartCount: 0,
     products: [],
     selectedProduct: null, 
   }),
+  
 
   actions: {
     async addToCart(productData) {
       try {
         const response = await axios.post('http://localhost:5000/api/cart', productData);
         if (response.data.success) {
-          this.cart = response.data.cart; 
+          this.cart = response.data.cart || []; 
+          this.cartCount = this.cart.length;
           return { success: true, cartCount: this.cart.length };
         } else {
           return { success: false, message: 'No se pudo añadir el producto al carrito.' };
@@ -22,7 +25,7 @@ export const useProductStore = defineStore('productStore', {
         console.error('Error adding product to cart:', error);
         return { success: false, message: 'Hubo un error al agregar el producto al carrito.' };
       }
-    },
+    },        
     async fetchProducts() {
       try {
         const response = await axios.get('http://localhost:5000/api/products'); 
